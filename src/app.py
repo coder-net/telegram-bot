@@ -5,12 +5,18 @@ from flask import Flask
 from flask import render_template
 from flask import request
 from flask import jsonify
+from pymongo import MongoClient
 import load_commands
 from command_interface import commands_list
 
 
+client = MongoClient('localhost', 27017)
+db = client['bot']
+
+
 TOKEN = os.getenv('TOKEN')
 URL = 'https://api.telegram.org/bot{}/'.format(TOKEN)
+
 
 app = Flask(__name__)
 
@@ -26,7 +32,7 @@ def webhook():
         r = request.get_json()
         for command in commands_list:
             for key in command.keys:
-                if re.match(key, r['message']['text']):
+                if re.fullmatch(key, r['message']['text']):
                     send_message(r['message']['chat']['id'], command.handle(r))
                     return jsonify(r)
         send_message(r['message']['chat']['id'], 'command not found')
