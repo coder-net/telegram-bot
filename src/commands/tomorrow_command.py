@@ -14,7 +14,8 @@ def tomorrow_command(message):
         )
 
 
-tomorrow = commands.Command()
-tomorrow.description = "get tomorrow's schedule for group_number"
-tomorrow.keys = [r'/tomorrow +\d+\s*']
-tomorrow.handle = tomorrow_command
+commands.Command(
+    tomorrow_command,
+    [r'/tomorrow +\d+\s*'],
+    "/tomorrow group_number - get tomorrow's schedule for group_number"
+)

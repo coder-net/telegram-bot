@@ -11,8 +11,11 @@ def today_command(message):
             group_number
         )
 
-today = commands.Command()
-today.description = "get today's schedule for group_number"
-today.keys = [r'/today +\d+\s*']
-today.handle = today_command
+
+commands.Command(
+    today_command,
+    today_command,
+    [r'/today +\d+\s*'],
+    "/today group_number - get today's schedule for group_number"
+)
 
