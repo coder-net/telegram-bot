@@ -16,5 +16,3 @@ class Command:
     def description(self):
         return self._description
 
-
-

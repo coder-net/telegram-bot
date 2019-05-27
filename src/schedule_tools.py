@@ -8,11 +8,12 @@ def get_schedule(curr_day, curr_week, group_number):
     res = ''
     for subj in schedule['schedule'][curr_day]['schedule']:
         if curr_week in subj['weekNumber']:
-            res += '{} ({}) {{{}}} {} - {}\n'.format(
+            res += '{} {} -  {} ({}) {}\n'.format(
+                subj['lessonTime'],
+                subj['auditory'],
                 subj['subject'],
                 subj['lessonType'],
-                subj['numSubgroup'],
-                subj['auditory'],
-                subj['lessonTime'])
+                '' if not subj['numSubgroup'] else '{{{} subgr.}}'.format(subj['numSubgroup'])
+            )
 
     return res if res else 'No subjects at this day'
