@@ -23,10 +23,10 @@ def schedule_command(message):
         group_number = app.db.schedules.users_groups.find_one({'chat_id': message['message']['chat']['id']})['group']
     # values to get schedule
     if command == '/today':
-        day = app.dt.datetime.today().weekday()
+        day = app.dt.datetime.today()
         week = app.db.schedules.date.find_one({'name': 'curr_week'})['curr_week']
     else:
-        day = app.dt.datetime.today() + app.dt.datetime.timedelta(days=1)
+        day = app.dt.datetime.today() + app.dt.timedelta(days=1)
         week = (app.db.schedules.date.find_one({'name': 'curr_week'})['curr_week'] + (day == 0)) % 4 + (day == 0)
     schedule = get_schedule(
             day.weekday(),
