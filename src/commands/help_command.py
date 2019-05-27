@@ -3,14 +3,19 @@ import command_interface as commands
 
 def help_command(message):
     result = ''
-    for command in commands.commands_list:
+    for command in commands.Command.commands_dict.values():
         result += '{}\n'.format(command.description)
-    return result
+    return {'text':result}
 
 
 commands.Command(
-    [r'/help\s*', r'/start\s*'],
+    '/help',
     help_command,
     '/help - get help'
+)
+commands.Command(
+    '/start',
+    help_command,
+    '/start - start bot'
 )
 

@@ -8,7 +8,7 @@ from flask import request
 from flask import jsonify
 from pymongo import MongoClient
 import load_commands
-from command_interface import commands_list
+from command_interface import Command
 
 
 client = MongoClient('localhost', 27017)
@@ -31,19 +31,23 @@ def index():
 def webhook():
     if request.method == 'POST':
         r = request.get_json()
-        for command in commands_list:
-            for key in command.keys:
-                if re.fullmatch(key, r['message']['text']):
-                    send_message(r['message']['chat']['id'], command.handle(r))
-                    return jsonify(r)
-        send_message(r['message']['chat']['id'], 'command not found')
+        if 'text' in r['message']:
+            command = re.match(r'/\w+', r['message']['text'])
+            if command and command.group(0) in Command.commands_dict:
+                send_message(r['message']['chat']['id'], Command.commands_dict[command.group(0)].handle(r))
+                return jsonify(r)
+        elif 'location' in r['message']:
+            send_message(r['message']['chat']['id'], Command.commands_dict['/location'].handle(r))
+            return jsonify(r)
+        send_message(r['message']['chat']['id'], {'text': "Command isn't found"})
         return jsonify(r)
     return index()
 
 
-def send_message(chat_id, text):
+def send_message(chat_id, data):
     url = URL + 'sendMessage'
-    data = {"chat_id" : chat_id, "text" : text}
+    d = {'chat_id': chat_id}
+    d.update(data)
     requests.post(url, json=data)
 
 

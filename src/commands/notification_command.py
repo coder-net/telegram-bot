@@ -4,6 +4,7 @@ import command_interface as commands
 
 def notification_command(message):
     try:
+        #TODO split text and get time
         date = app.datetime.strptime(message['message']['text'], '%H:%M')
         date = app.datetime.now().replace(hour=date.hour, minute=date.minute, second=0)
         if date < app.datetime.now():
@@ -12,3 +13,11 @@ def notification_command(message):
         return 'Incorrect format of time. Try "hh:mm"'
     chat_id = message['message']['chat']['id']
     app.schedule.notification.update({'chat_id': chat_id}, {'$set': {'time': date}}, upsert=True)
+    #app.q push new value
+
+
+commands.Command(
+    '/notification',
+    notification_command,
+    '/notification [hh:mm] - set or get time of notification'
+)

@@ -13,17 +13,19 @@ def cfrating_command(message):
         return rating['comment']
     if len(rating['result']) == 0:
         return "Don't take part in any contests"
-    return 'Contest name: {}\nRank: {}\nOld rating: {}\nNew rating: {}\nDifference: {}'.format(
-        rating['result']['contestName'],
-        rating['result']['rank'],
-        rating['result']['oldRating'],
-        rating['result']['newRating'],
-        rating['result']['newRating'] - rating['result']['oldRating']
-    )
+    return {
+        'text': 'Contest name: {}\nRank: {}\nOld rating: {}\nNew rating: {}\nDifference: {}'.format(
+            rating['result']['contestName'],
+            rating['result']['rank'],
+            rating['result']['oldRating'],
+            rating['result']['newRating'],
+            rating['result']['newRating'] - rating['result']['oldRating']
+        )
+    }
 
 
 commands.Command(
-    [r'/cfrating \w+'],
+    '/cfrating',
     cfrating_command,
-    '/cfrating handle - gett your results from last constest'
+    '/cfrating handle - get your results from last constest'
 )

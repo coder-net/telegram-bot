@@ -1,16 +1,10 @@
-commands_list = []
-
-
 class Command:
-    def __init__(self, keys, command, description=''):
-        self._keys = keys
+    commands_dict = {}
+
+    def __init__(self, key, command, description=''):
         self._description = description
         self.handle = command
-        commands_list.append(self)
-
-    @property
-    def keys(self):
-        return self._keys
+        Command.commands_dict[key] = self
 
     @property
     def description(self):
