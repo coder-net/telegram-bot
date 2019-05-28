@@ -35,10 +35,11 @@ def webhook():
             command = re.match(r'^/\w+', r['message']['text'])
             if command and command.group(0) in Command.commands_dict:
                 send_message(r['message']['chat']['id'], Command.commands_dict[command.group(0)].handle(r))
+                return jsonify(r)
         elif 'location' in r['message']:
             send_message(r['message']['chat']['id'], Command.commands_dict['/location'].handle(r))
-        else:
-            send_message(r['message']['chat']['id'], {'text': "Command isn't found"})
+            return jsonify(r)
+        send_message(r['message']['chat']['id'], {'text': "Command isn't found"})
         return jsonify(r)
     return index()
 

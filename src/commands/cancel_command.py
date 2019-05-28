@@ -4,7 +4,7 @@ import command_interface as commands
 
 def cancel_command(message):
     return {
-        'text': 'Detele buttons',
+        'text': 'Cancellation',
         'reply_markup': {
             'remove_keyboard': True
         }
@@ -14,5 +14,5 @@ def cancel_command(message):
 commands.Command(
     '/cancel',
     cancel_command,
-    '`/cancel` - remove keyboard buttons'
+    '/cancel - remove keyboard buttons'
 )

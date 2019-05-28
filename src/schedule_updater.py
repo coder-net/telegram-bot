@@ -20,12 +20,17 @@ update_api = 'https://journal.bsuir.by/api/v1/studentGroup/lastUpdateDate?studen
 week_api = 'http://journal.bsuir.by/api/v1/week'
 
 
-@tl.job(interval=datetime.timedelta(seconds=60*60))
+@tl.job(interval=datetime.timedelta(seconds=600))
 def week_update():
-    db.schedules.date.update(
-            {'name': 'curr_week'},
-            {'$set': {'curr_day': s.get(week_api).json()}}
-    )
+    try:
+        week = s.get(week_api).json()
+    except:
+        pass
+    else:
+        db.schedules.date.update(
+                {'name': 'curr_week'},
+                {'$set': {'curr_week': week}}
+        )
 
 
 @tl.job(interval=datetime.timedelta(seconds=60*60*6))

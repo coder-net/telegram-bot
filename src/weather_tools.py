@@ -5,7 +5,7 @@ API = 'https://api.openweathermap.org/data/2.5/weather'
 appid = 'd88a41cccbd9e035b21b3ba6f0aa1242'
 
 
-def get_weather(chat_id, lat, lon):
+def get_weather(lat, lon):
     p = {
         'appid': appid,
         'lat': lat,

@@ -11,7 +11,9 @@ def weather_command(message):
                     'request_location': True
                 },
                 '/cancel'
-            ]]
+            ]],
+            'resize_keyboard': True,
+            'one_time_keyboard': True
         }
     }
 
@@ -19,5 +21,5 @@ def weather_command(message):
 commands.Command(
     '/weather',
     weather_command,
-    '`/weather` - get current weather'
+    '/weather - get current weather'
 )

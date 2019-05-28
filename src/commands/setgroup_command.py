@@ -4,12 +4,12 @@ import command_interface as commands
 
 
 def setgroup_command(message):
-    if not re.fullmatch(r'/setgroup \d+\s+', message['message']['text']):
-        return {'text': 'Incorrect usage of /setgroup. Use "/setgroup group_number'}
+    if not re.fullmatch(r'/setgroup \d+\s*', message['message']['text']):
+        return {'text': 'Incorrect usage of /setgroup. Use "/setgroup group_number"'}
     chat_id = message['message']['chat']['id']
-    group_number = re.match(r'\d+', message['message']['text'])
+    group_number = re.search(r'\d+', message['message']['text']).group(0)
     if not app.db['schedules']['groups'].count_documents({'name': group_number}):
-        return 'Incorrect group number'
+        return {'text': 'Incorrect group number'}
     app.db['schedules']['users_groups'].update_one(
         {'chat_id': chat_id},
         {'$set': {'group': group_number}},
